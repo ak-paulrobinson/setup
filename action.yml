@@ -4,13 +4,16 @@ inputs:
   target:
     description: 'Branch that needs to be installed'
     required: true
+  token:
+    description: 'Token for checking out branch'
+    required: true
 runs:
   using: "composite"
   steps:
     - uses: actions/checkout@v2
       with:
         fetch-depth: 0
-        token: ${{ secrets.BOT_PROTECTED_PAT }}
+        token: ${{ inputs.token }}
     - name: Setup node
       uses: actions/setup-node@v3
       with:
