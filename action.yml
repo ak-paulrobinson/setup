@@ -1,0 +1,27 @@
+name: 'Setup'
+description: 'Setup for the install'
+inputs:
+  target:
+    description: 'Branch that needs to be installed'
+    required: true
+runs:
+  using: "composite"
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.BOT_PROTECTED_PAT }}
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: package.json
+      - name: Build
+        shell: bash
+        run: |
+          echo "node version"
+          node -v
+          echo "Fetching all"
+          git fetch --all
+          echo "Doing checkout of branch ${{ inputs.target }}"
+          git switch ${{ inputs.target }}
+          npm install
